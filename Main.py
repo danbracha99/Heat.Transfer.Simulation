@@ -182,10 +182,50 @@ class HeatTransfer(QWidget):
         main_layout.addLayout(center_col)
         main_layout.addLayout(right_col)
         self.setLayout(main_layout)
-        
-def closeEvent(self, event):
+
+        self.left_slider.valueChanged.connect(self.left_temperature_changed)
+        self.right_slider.valueChanged.connect(self.right_temperature_changed)
+
+        self.left_material_combo.currentTextChanged.connect(self.left_material_changed)
+        self.right_material_combo.currentTextChanged.connect(self.right_material_changed)
+        self.left_cap_box.valueChanged.connect(self.left_cap_manual_changed)
+        self.right_cap_box.valueChanged.connect(self.right_cap_manual_changed)
+
+    def closeEvent(self, event):
         self.graph_window.close()
         self.about_window.close()
+
+    def update_body_color(self, widget, temp):
+        red = max(0, min(255, int((temp / 200.0) * 255)))
+        widget.setStyleSheet(f"background-color: rgb({red}, 0, 0); border-radius: 8px;")
+
+    def left_temperature_changed(self, value):
+        self.left_temp_box.setValue(float(value))
+        self.update_body_color(self.left_body_box, value)
+
+    def right_temperature_changed(self, value):
+        self.right_temp_box.setValue(float(value))
+        self.update_body_color(self.right_body_box, value)
+
+    def left_material_changed(self, material_name):
+        cap = MATERIALS[material_name]
+        if cap is not None:
+            self.left_cap_box.blockSignals(True)
+            self.left_cap_box.setValue(cap)
+            self.left_cap_box.blockSignals(False)
+
+    def right_material_changed(self, material_name):
+        cap = MATERIALS[material_name]
+        if cap is not None:
+            self.right_cap_box.blockSignals(True)
+            self.right_cap_box.setValue(cap)
+            self.right_cap_box.blockSignals(False)
+
+    def left_cap_manual_changed(self):
+        self.left_material_combo.setCurrentText("Custom")
+
+    def right_cap_manual_changed(self):
+        self.right_material_combo.setCurrentText("Custom")
 
 
 if __name__ == "__main__":
