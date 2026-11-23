@@ -1,0 +1,50 @@
+QWidget {
+    background-color: #f1f5f9;
+    color: #1e293b;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 13px;
+}
+
+QDoubleSpinBox, QComboBox {
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 5px;
+    padding: 4px 6px;
+}
+
+QDoubleSpinBox:read-only {
+    background-color: #e2e8f0;
+    color: #0f172a;
+    font-weight: bold;
+}
+
+QPushButton {
+    background-color: #e2e8f0;
+    border: 1px solid #94a3b8;
+    border-radius: 6px;
+    padding: 7px 14px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    background-color: #cbd5e1;
+}
+
+QPushButton#start_btn {
+    background-color: #16a34a;
+    color: #ffffff;
+    border: none;
+    font-size: 15px;
+}
+
+QPushButton#start_btn:hover {
+    background-color: #15803d;
+}
+
+QPushButton#start_btn:checked {
+    background-color: #dc2626;
+}
+
+QPushButton#start_btn:checked:hover {
+    background-color: #b91c1c;
+}
