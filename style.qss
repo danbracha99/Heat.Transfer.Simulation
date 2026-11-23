@@ -1,32 +1,73 @@
 QWidget {
-    background-color: #f1f5f9;
+    background-color: #e2e8f0;
     color: #1e293b;
     font-family: "Segoe UI", Arial, sans-serif;
     font-size: 13px;
 }
 
-QDoubleSpinBox, QComboBox {
+QFrame#card {
     background-color: #ffffff;
     border: 1px solid #cbd5e1;
-    border-radius: 5px;
-    padding: 4px 6px;
+    border-radius: 12px;
+}
+
+QLabel {
+    background-color: transparent;
+}
+
+QLabel#section_title {
+    font-size: 15px;
+    font-weight: bold;
+    color: #0f172a;
+}
+
+QLabel#status_lbl {
+    background-color: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 4px;
+    font-weight: bold;
+    color: #334155;
+}
+
+QCheckBox {
+    background-color: transparent;
+    spacing: 6px;
+}
+
+QDoubleSpinBox, QComboBox {
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 4px 8px;
+    min-height: 22px;
+}
+
+QDoubleSpinBox:focus, QComboBox:focus {
+    border: 1px solid #3b82f6;
 }
 
 QDoubleSpinBox:read-only {
-    background-color: #e2e8f0;
+    background-color: #f1f5f9;
+    border: 1px solid #94a3b8;
     color: #0f172a;
     font-weight: bold;
 }
 
 QPushButton {
-    background-color: #e2e8f0;
+    background-color: #f1f5f9;
     border: 1px solid #94a3b8;
-    border-radius: 6px;
-    padding: 7px 14px;
+    border-radius: 7px;
+    padding: 8px 14px;
     font-weight: bold;
+    color: #1e293b;
 }
 
 QPushButton:hover {
+    background-color: #e2e8f0;
+}
+
+QPushButton:pressed {
     background-color: #cbd5e1;
 }
 
@@ -35,6 +76,7 @@ QPushButton#start_btn {
     color: #ffffff;
     border: none;
     font-size: 15px;
+    padding: 10px;
 }
 
 QPushButton#start_btn:hover {
@@ -47,4 +89,14 @@ QPushButton#start_btn:checked {
 
 QPushButton#start_btn:checked:hover {
     background-color: #b91c1c;
+}
+
+QLabel#temp_label {
+    background-color: #f1f5f9;
+    border: 1px solid #94a3b8;
+    border-radius: 6px;
+    padding: 4px 8px;
+    color: #0f172a;
+    font-weight: bold;
+    min-height: 22px;
 }
