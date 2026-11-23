@@ -1,4 +1,5 @@
 from about_window import AboutWindow
+from graph_window import GraphWindow
 from PySide6.QtWidgets import (
     QApplication, QWidget, QLabel, QPushButton, QSlider,
     QDoubleSpinBox, QComboBox, QCheckBox, QAbstractSpinBox,
@@ -26,6 +27,7 @@ class HeatTransfer(QWidget):
         self.body1_temp_history = []
         self.body2_temp_history = []
 
+        self.graph_window = GraphWindow(self)
         self.about_window = AboutWindow()
         self.timer = QTimer(self)
         self.setupUI()
@@ -110,6 +112,7 @@ class HeatTransfer(QWidget):
         self.graphs_button = QPushButton("Graphs")
         self.about_button = QPushButton("About")
         self.about_button.clicked.connect(self.about_window.show)
+        self.graphs_button.clicked.connect(self.graph_window.show)
 
         center_col = QVBoxLayout()
         center_col.addWidget(cond_label)
@@ -179,6 +182,10 @@ class HeatTransfer(QWidget):
         main_layout.addLayout(center_col)
         main_layout.addLayout(right_col)
         self.setLayout(main_layout)
+        
+def closeEvent(self, event):
+        self.graph_window.close()
+        self.about_window.close()
 
 
 if __name__ == "__main__":
