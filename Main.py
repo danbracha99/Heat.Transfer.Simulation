@@ -1,3 +1,4 @@
+from about_window import AboutWindow
 from PySide6.QtWidgets import (
     QApplication, QWidget, QLabel, QPushButton, QSlider,
     QDoubleSpinBox, QComboBox, QCheckBox, QAbstractSpinBox,
@@ -25,8 +26,10 @@ class HeatTransfer(QWidget):
         self.body1_temp_history = []
         self.body2_temp_history = []
 
+        self.about_window = AboutWindow()
         self.timer = QTimer(self)
         self.setupUI()
+        
 
     def setupUI(self):
         self.setWindowTitle("Heat Transfer Simulation")
@@ -106,6 +109,7 @@ class HeatTransfer(QWidget):
 
         self.graphs_button = QPushButton("Graphs")
         self.about_button = QPushButton("About")
+        self.about_button.clicked.connect(self.about_window.show)
 
         center_col = QVBoxLayout()
         center_col.addWidget(cond_label)
