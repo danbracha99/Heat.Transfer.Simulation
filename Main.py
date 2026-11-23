@@ -191,6 +191,9 @@ class HeatTransfer(QWidget):
         self.left_cap_box.valueChanged.connect(self.left_cap_manual_changed)
         self.right_cap_box.valueChanged.connect(self.right_cap_manual_changed)
 
+        self.start_button.toggled.connect(self.start_stop_button_method)
+        self.timer.timeout.connect(self.timer_method)
+
     def closeEvent(self, event):
         self.graph_window.close()
         self.about_window.close()
@@ -226,6 +229,84 @@ class HeatTransfer(QWidget):
 
     def right_cap_manual_changed(self):
         self.right_material_combo.setCurrentText("Custom")
+
+    def set_inputs_enabled(self, enabled):
+        self.left_slider.setEnabled(enabled)
+        self.right_slider.setEnabled(enabled)
+        self.left_mass_box.setEnabled(enabled)
+        self.left_cap_box.setEnabled(enabled)
+        self.left_material_combo.setEnabled(enabled)
+        self.right_mass_box.setEnabled(enabled)
+        self.right_cap_box.setEnabled(enabled)
+        self.right_material_combo.setEnabled(enabled)
+        self.conductivity_box.setEnabled(enabled)
+
+    def start_stop_button_method(self, checked):
+        if checked:
+            self.start_button.setText("Stop")
+            self.set_inputs_enabled(False)
+            self.status_label.setText("Running...")
+
+            self.body1 = Body(
+                self.left_mass_box.value(),
+                self.left_cap_box.value(),
+                self.left_temp_box.value()
+            )
+            self.body2 = Body(
+                self.right_mass_box.value(),
+                self.right_cap_box.value(),
+                self.right_temp_box.value()
+            )
+
+            self.time_elapsed = 0.0
+            self.time_history = [0.0]
+            self.body1_temp_history = [self.body1.temperature]
+            self.body2_temp_history = [self.body2.temperature]
+
+            self.timer.start(100)
+        else:
+            self.timer.stop()
+            self.start_button.setText("Start")
+            self.set_inputs_enabled(True)
+            if self.status_label.text() == "Running...":
+                self.status_label.setText("Paused")
+
+    def timer_method(self):
+        dt = 0.01
+        sigma = self.conductivity_box.value()
+
+        t1 = self.body1.temperature
+        t2 = self.body2.temperature
+
+        i1 = sigma * (t2 - t1)
+        i2 = sigma * (t1 - t2)
+
+        dq1 = i1 * dt
+        dq2 = i2 * dt
+
+        new_t1 = self.body1.add_heat(dq1)
+        new_t2 = self.body2.add_heat(dq2)
+
+        self.time_elapsed = round(self.time_elapsed + dt, 2)
+        self.time_history.append(self.time_elapsed)
+        self.body1_temp_history.append(new_t1)
+        self.body2_temp_history.append(new_t2)
+
+        self.left_slider.blockSignals(True)
+        self.left_slider.setValue(int(round(new_t1)))
+        self.left_slider.blockSignals(False)
+        self.left_temp_box.setValue(new_t1)
+        self.update_body_color(self.left_body_box, new_t1)
+
+        self.right_slider.blockSignals(True)
+        self.right_slider.setValue(int(round(new_t2)))
+        self.right_slider.blockSignals(False)
+        self.right_temp_box.setValue(new_t2)
+        self.update_body_color(self.right_body_box, new_t2)
+
+        if self.auto_stop_checkbox.isChecked() and abs(new_t1 - new_t2) < 0.01:
+            self.status_label.setText("Equilibrium reached")
+            self.start_button.setChecked(False)
 
 
 if __name__ == "__main__":
