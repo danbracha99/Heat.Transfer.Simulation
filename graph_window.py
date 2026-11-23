@@ -15,18 +15,18 @@ class GraphWindow(QWidget):
 
     def setupUI(self):
         self.setWindowTitle("Graph Window")
-        self.setGeometry(890, 180, 650, 440)
+        self.setGeometry(900, 140, 660, 450)
 
         plot_card = QFrame()
         plot_card.setObjectName("card")
-        plot_layout = QVBoxLayout()
+        plot_layout = QVBoxLayout(plot_card)
         plot_layout.setContentsMargins(10, 10, 10, 10)
 
         self.fig, self.ax = plt.subplots(figsize=(5, 4))
+        self.fig.patch.set_facecolor("#1e293b")
         self.canvas = FigureCanvasQTAgg(self.fig)
         self.style_axes()
         plot_layout.addWidget(self.canvas)
-        plot_card.setLayout(plot_layout)
 
         controls_card = QFrame()
         controls_card.setObjectName("card")
@@ -37,7 +37,7 @@ class GraphWindow(QWidget):
         self.draw_button = QPushButton("Draw")
         self.draw_button.clicked.connect(self.draw_clicked)
 
-        self.remove_button = QPushButton("Remove")
+        self.remove_button = QPushButton("Remove This Body")
         self.remove_button.clicked.connect(self.remove_clicked)
 
         self.clear_button = QPushButton("Clear")
@@ -46,7 +46,7 @@ class GraphWindow(QWidget):
         self.export_button = QPushButton("Export to CSV")
         self.export_button.clicked.connect(self.export_csv_clicked)
 
-        controls_layout = QVBoxLayout()
+        controls_layout = QVBoxLayout(controls_card)
         controls_layout.setContentsMargins(14, 14, 14, 14)
         controls_layout.setSpacing(12)
         controls_layout.addWidget(self.body_combo)
@@ -55,22 +55,24 @@ class GraphWindow(QWidget):
         controls_layout.addWidget(self.clear_button)
         controls_layout.addWidget(self.export_button)
         controls_layout.addStretch()
-        controls_card.setLayout(controls_layout)
 
-        main_layout = QHBoxLayout()
+        main_layout = QHBoxLayout(self)
         main_layout.setContentsMargins(16, 16, 16, 16)
         main_layout.setSpacing(14)
         main_layout.addWidget(plot_card, 3)
         main_layout.addWidget(controls_card, 1)
-        self.setLayout(main_layout)
 
     def style_axes(self):
-        self.ax.set_xlabel("Time (s)")
-        self.ax.set_ylabel("Temperature (°C)")
-        self.ax.set_title("Temperature vs. Time")
+        self.ax.set_facecolor("#0f172a")
+        self.ax.set_xlabel("Time (s)", color="#cbd5e1")
+        self.ax.set_ylabel("Temperature (°C)", color="#cbd5e1")
+        self.ax.set_title("Temperature vs. Time", color="#f8fafc", fontweight="bold")
+        self.ax.tick_params(colors="#94a3b8")
         self.ax.spines["top"].set_visible(False)
         self.ax.spines["right"].set_visible(False)
-        self.ax.grid(True, linestyle="--", alpha=0.5)
+        self.ax.spines["bottom"].set_color("#475569")
+        self.ax.spines["left"].set_color("#475569")
+        self.ax.grid(True, linestyle="--", color="#334155", alpha=0.7)
         self.fig.tight_layout()
 
     def draw_clicked(self):
@@ -101,15 +103,17 @@ class GraphWindow(QWidget):
         if "Body 1" in self.plotted_bodies:
             self.ax.plot(
                 t, self.main_window.body1_temp_history,
-                color="#dc2626", linewidth=2, label="Body 1"
+                color="#f43f5e", linewidth=2.2, label="Body 1"
             )
         if "Body 2" in self.plotted_bodies:
             self.ax.plot(
                 t, self.main_window.body2_temp_history,
-                color="#2563eb", linewidth=2, label="Body 2"
+                color="#38bdf8", linewidth=2.2, label="Body 2"
             )
 
-        self.ax.legend()
+        legend = self.ax.legend(facecolor="#1e293b", edgecolor="#475569")
+        for text in legend.get_texts():
+            text.set_color("#f8fafc")
         self.canvas.draw()
 
     def clear_clicked(self):
