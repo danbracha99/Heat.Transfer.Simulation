@@ -23,7 +23,7 @@ class GraphWindow(QWidget):
         plot_layout.setContentsMargins(10, 10, 10, 10)
 
         self.fig, self.ax = plt.subplots(figsize=(5, 4))
-        self.fig.patch.set_facecolor("#1e293b")
+        self.fig.patch.set_facecolor("#ffffff")
         self.canvas = FigureCanvasQTAgg(self.fig)
         self.style_axes()
         plot_layout.addWidget(self.canvas)
@@ -63,16 +63,16 @@ class GraphWindow(QWidget):
         main_layout.addWidget(controls_card, 1)
 
     def style_axes(self):
-        self.ax.set_facecolor("#0f172a")
-        self.ax.set_xlabel("Time (s)", color="#cbd5e1")
-        self.ax.set_ylabel("Temperature (°C)", color="#cbd5e1")
-        self.ax.set_title("Temperature vs. Time", color="#f8fafc", fontweight="bold")
-        self.ax.tick_params(colors="#94a3b8")
+        self.ax.set_facecolor("#ffffff")
+        self.ax.set_xlabel("Time (s)", color="#334155")
+        self.ax.set_ylabel("Temperature (°C)", color="#334155")
+        self.ax.set_title("Temperature vs. Time", color="#0f172a", fontweight="bold")
+        self.ax.tick_params(colors="#475569")
         self.ax.spines["top"].set_visible(False)
         self.ax.spines["right"].set_visible(False)
-        self.ax.spines["bottom"].set_color("#475569")
-        self.ax.spines["left"].set_color("#475569")
-        self.ax.grid(True, linestyle="--", color="#334155", alpha=0.7)
+        self.ax.spines["bottom"].set_color("#cbd5e1")
+        self.ax.spines["left"].set_color("#cbd5e1")
+        self.ax.grid(True, linestyle="--", color="#e2e8f0", alpha=0.9)
         self.fig.tight_layout()
 
     def draw_clicked(self):
@@ -103,17 +103,17 @@ class GraphWindow(QWidget):
         if "Body 1" in self.plotted_bodies:
             self.ax.plot(
                 t, self.main_window.body1_temp_history,
-                color="#f43f5e", linewidth=2.2, label="Body 1"
+                color="#ef4444", linewidth=2.2, label="Body 1"
             )
         if "Body 2" in self.plotted_bodies:
             self.ax.plot(
                 t, self.main_window.body2_temp_history,
-                color="#38bdf8", linewidth=2.2, label="Body 2"
+                color="#0284c7", linewidth=2.2, label="Body 2"
             )
 
-        legend = self.ax.legend(facecolor="#1e293b", edgecolor="#475569")
+        legend = self.ax.legend(facecolor="#ffffff", edgecolor="#cbd5e1")
         for text in legend.get_texts():
-            text.set_color("#f8fafc")
+            text.set_color("#0f172a")
         self.canvas.draw()
 
     def clear_clicked(self):

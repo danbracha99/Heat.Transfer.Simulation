@@ -14,7 +14,7 @@ class AboutWindow(QWidget):
 
         title_label = QLabel("Heat Conduction Simulation")
         title_label.setAlignment(Qt.AlignCenter)
-        title_label.setStyleSheet("font-size: 17px; font-weight: bold; color: #38bdf8;")
+        title_label.setStyleSheet("font-size: 17px; font-weight: bold; color: #0284c7;")
 
         image_label = QLabel()
         image_label.setAlignment(Qt.AlignCenter)
@@ -28,7 +28,7 @@ class AboutWindow(QWidget):
         desc_label.setAlignment(Qt.AlignCenter)
 
         repo_url = "https://github.com/danbracha99/Heat.Transfer.Simulation"
-        link_label = QLabel(f'<a style="color:#38bdf8;" href="{repo_url}">GitHub Project Repository</a>')
+        link_label = QLabel(f'<a style="color:#0284c7;" href="{repo_url}">GitHub Project Repository</a>')
         link_label.setAlignment(Qt.AlignCenter)
         link_label.setOpenExternalLinks(True)
 
